@@ -16,6 +16,7 @@ Dette betyr at brukerens kode kjører fullstendig back-end, som gir enorme sikke
 - Brukeren har også tilgang til å endre på systemfiler gjennom pythons "open" funksjon. Vi kan løse det ved å bannlyse bruken av "open" ved inspeksjon av kodestrengen.
 - Dersom brukerens kode resulterer i en uendelig while-funksjon vil dette svekke applikasjonens funksjonalitet og serverens ytelse, på samme måte er serveren sårbar mot DoS angrep. Vi har ikke funnet en løsning for dette enda.
 - Ytelsen på servermaskinen vil også svekkes ved vanlig bruk. Python er et tungt program, og hvis denne applikasjonen var ekte hadde sannsynlig vis flere tusen brukere brukt den samtidig, som servermaskinen kanskje ikke ville takle.
+
 Sikkerhetsmessig er dette en svært tvilsom løsning for python-delen av applikasjonen, men vi velger å gå for denne løsningen siden dette ikke er et sikkerhetsorientert fag. I tilfelle vi må forlate denne ideen har vi en backup-løsning for spillsiden.
 
 << Spillsiden (Backup) >>
