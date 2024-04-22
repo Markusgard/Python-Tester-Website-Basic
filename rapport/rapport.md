@@ -8,6 +8,7 @@ Nettsiden består av flere routes.
 - Forsiden omdirigerer brukeren også til et "nytt spill"-side som inneholder selve spillet.
 
 << Spillsiden >>
+
 Siden består av en <textfield> element hvor brukeren har mulighet til å skrive inn sin kode, med en tilsvarende "kjør kode" knapp.
 Poengsummen avhenger av hvor mange linjer brukeren skriver, og hvor mange forsøk har blitt brukt.
 Når brukeren kjører sin kode vil kodestrengen bli overført til en route i Flask-applikasjonen med AJAX. Denne routen vil da opprette en separat python fil som inneholder brukerens kode, og kjører den som en importert funksjon. I virkeligheten ville flere brukere kjøre koden sin samtidig, så vi velger å navnsette python-filen til brukernavnet, slik at det ikke oppstår konflikter.
@@ -20,4 +21,5 @@ Dette betyr at brukerens kode kjører fullstendig back-end, som gir enorme sikke
 Sikkerhetsmessig er dette en svært tvilsom løsning for python-delen av applikasjonen, men vi velger å gå for denne løsningen siden dette ikke er et sikkerhetsorientert fag. I tilfelle vi må forlate denne ideen har vi en backup-løsning for spillsiden.
 
 << Spillsiden (Backup) >>
+
 I stedet for å ha en innebygd python-interpreter velger vi å gå for en slags "quiz" løsning som består av en serie med flervalg-spørsmål.
