@@ -13,7 +13,6 @@
             <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"></textarea>
             <input type="button" v-on:click="runCode" value="run">
         </form>
-        <p>{{ thing }}</p>
         <div id="console">
             <p v-for="item in consoleItems">{{ item }}</p>
         </div>
