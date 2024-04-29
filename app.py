@@ -37,7 +37,7 @@ def run():
             reload(username)
         except:
             os.remove("SolEld/username.py")
-            return "Syntax error"       #Exception for general errors
+            return [True, "Syntax error"]       #Exception for general errors
 
         try:
             result = username.usercode()    ### !!! ERROR: Result never updates

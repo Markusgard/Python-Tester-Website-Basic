@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
     <script src="/static/gpcode.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
@@ -14,7 +15,7 @@
             <input type="button" v-on:click="runCode" value="run">
         </form>
         <div id="console">
-            <p v-for="item in consoleItems">[[ item ]]</p>
+            <p class="itemGood" v-for="item in consoleItems">[[ item ]]</p>
         </div>
     </div>
 </body>
@@ -52,7 +53,7 @@
                 });
                 if (response.status == 200){
                     let result = await response.text();
-                    this.consoleItems.push(result);
+                    this.consoleItems.push(result[1]);
                 }
             }
         }

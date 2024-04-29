@@ -4,7 +4,6 @@ h1, h2, h3 {
   font-family: Monsterrat, Raleway;
 }
 
-
 /* Header stuff */
 #header{
     background-color: #0d5297;
@@ -45,7 +44,7 @@ h1, h2, h3 {
 /*CONTENT*/
 body{
     background-color: rgb(75, 95, 194);
-    margin: 0;
+    height: 80vh;
 }
 
 .banner{
@@ -80,6 +79,7 @@ body{
     padding-right:50px;
     font-size: 20px;
 }
+<<<<<<< HEAD
 .content2{
 width: 100%;
 background-color: rgb(77, 87, 177);
@@ -101,3 +101,26 @@ background-color: rgb(77, 87, 177);
     font-size: 30px;
 }
 
+=======
+
+/* Gamepage */
+
+#app {
+  height: 100%;
+}
+
+#console {
+  border: solid;
+  height: 300px;
+  overflow: auto;
+}
+
+.itemGood {
+  background-color: #0d5297;
+  padding: 10px;
+}
+.itemBad {
+  background-color: crimson;
+  padding: 10px;
+}
+>>>>>>> 705b557 (Changes)
