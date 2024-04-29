@@ -11,14 +11,7 @@ def index():
 def game():
     return render_template("gamepage.html")
 
-### !!! BAD IDEA TO USE ROUTE FOR THE INTERPRETER, TRY AJAX ###
-###
-### - code attempts is remembered by the browser. (RESOLVED)
-### - code attempt is stuck on first attempt.
-###
-### > first attempt directs user to "/run" route, stays there (RESOLVED)
-### > "/run" responds with old user code
-### <> "/run" process in a separate python file did not work
+
 
 @app.route("/run", methods=["POST"])
 def run():
@@ -35,7 +28,7 @@ def run():
         with open("username.py", "x") as codefile:
             codefile.write("import math\n")
             codefile.write("def usercode():\n")
-            codefile.write(f"    {codeind}\n")        #Added indentation for the function to work
+            codefile.write(f"    {codeind}\n")
 
         try:
             import username
