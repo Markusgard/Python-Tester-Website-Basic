@@ -1,0 +1,63 @@
+@import url("https://fonts.google.com/specimen/Raleway");
+@import url('https://fonts.google.com/specimen/Montserrat');
+h1, h2, h3 {
+  font-family: Monsterrat, Raleway;
+}
+
+
+/* Header stuff */
+#header{
+    background-color: #0d5297;
+    height: 40px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    
+  }
+
+#navbaritems li{
+    display: inline;
+    font-size: 30px;
+    color: white;
+  }
+
+#navbaritems{
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 30%; 
+}
+
+
+/*CONTENT*/
+body{
+    background-color: rgb(75, 95, 194);
+    
+}
+
+.banner{
+    background-color:#FFBB91 ; 
+    flex:50%;
+    text-align: center;
+    font-size: larger;
+  }
+  .banner h2{
+    color: rgb(255, 255, 255);
+  }
+  .flex-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+#content3{
+    background-color: #FFBB91;
+    display:flex;
+    flex-direction: row;
+
+}
+.leaderboard{
+    background-color: #0d5297;
+    color: white;
+}
