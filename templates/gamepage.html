@@ -14,22 +14,21 @@
             <input type="button" v-on:click="runCode" value="run">
         </form>
         <div id="console">
-            <p v-for="item in consoleItems">{{ item }}</p>
+            <p v-for="item in consoleItems">[[ item ]]</p>
         </div>
     </div>
 </body>
 <script>
     Vue.createApp({
+        delimiters: ['[[', ']]'],               // Prevent conflicts with Jinja2
         data: function() {
             return {
-                consoleItems: ["something", "something else"],
-                thing: "OH MY FUCKING GOD"
+                consoleItems: [],
             }
         },
         methods: {
-            // Prevents default action at tabulator, adds indentation instead
             indentation(){
-                let textField = document.getElementById("pyarea");
+                let textField = document.getElementById("pyarea");      // Prevents default action at tabulator, adds indentation instead
     
                 // Get text index at cursor placement
                 let start = textField.selectionStart;
@@ -41,9 +40,9 @@
             },
     
     
-            // Send the user's code to the python app
+            
             async runCode() {
-                let input = document.getElementById("pyarea").value;
+                let input = document.getElementById("pyarea").value;                // Send the user's code to the python app
                 let response = await fetch("/run",{
                     method: "POST",
                     headers: {
@@ -53,8 +52,7 @@
                 });
                 if (response.status == 200){
                     let result = await response.text();
-                    this.consoleItems.push("FUUUUCK");
-                    console.log(this.consoleItems);
+                    this.consoleItems.push(result);
                 }
             }
         }
