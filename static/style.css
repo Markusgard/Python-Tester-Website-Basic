@@ -20,20 +20,22 @@ h1, h2, h3 {
     display: inline;
     font-size: 30px;
     color: white;
+    margin-right: 20%;
   }
 
 #navbaritems{
     position: fixed;
     margin: 0;
     top: 0;
-    left: 30%; 
+    display: flex;
+    
 }
 
 
 /*CONTENT*/
 body{
     background-color: rgb(75, 95, 194);
-    
+    margin: 0;
 }
 
 .banner{
@@ -41,6 +43,8 @@ body{
     flex:50%;
     text-align: center;
     font-size: larger;
+    margin-top: 10%;
+    width: 100%;
   }
   .banner h2{
     color: rgb(255, 255, 255);
@@ -61,3 +65,19 @@ body{
     background-color: #0d5297;
     color: white;
 }
+.content2{
+width: 100%;
+
+}
+#content3{
+    display: flex;
+    justify-content: center;
+}
+
+#games{
+    margin-right: 20%;
+    background-color: #0d5297;
+    display:flex;
+    color: white;
+}
+
