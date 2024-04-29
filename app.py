@@ -21,11 +21,13 @@ def run():
 
     if "import" in code:
         return "Prohibited"
+    elif "print" in code:
+        return "Please use 'return' instead of 'print()'"
     else: 
 
         codeind = code.replace("\n", "\n    ")      #Adds indentation
 
-        with open("username.py", "x") as codefile:
+        with open("SolEld/username.py", "x") as codefile:
             codefile.write("import math\n")
             codefile.write("def usercode():\n")
             codefile.write(f"    {codeind}\n")
@@ -34,16 +36,15 @@ def run():
             import username
             reload(username)
         except:
-            os.remove("username.py")
+            os.remove("SolEld/username.py")
             return "Syntax error"       #Exception for general errors
 
         try:
             result = username.usercode()    ### !!! ERROR: Result never updates
         except:
-            os.remove("username.py")
+            os.remove("SolEld/username.py")
             return "General error"
-        os.remove("username.py")
-        print(result)
+        os.remove("SolEld/username.py")
         return str(result)      #String for now
 
 if __name__ == "__main__":

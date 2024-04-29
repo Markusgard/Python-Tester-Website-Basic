@@ -4,14 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="/static/script.js"></script>
+    <script src="/static/gpcode.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-    <form action="/run" method="POST">
-        <textarea name="py" id="py" cols="60" rows="20"></textarea>
-        <!-- <input type="button" id="run" value="run"> -->
-        <input type="button" onclick="runCode()">
-    </form>
-    <p id="answer"></p>
+    <div id="app">
+        <form action="" method="POST">
+            <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"></textarea>
+            <input type="button" v-on:click="runCode" value="run">
+        </form>
+        <p>{{ thing }}</p>
+        <div id="console">
+            <p v-for="item in consoleItems">{{ item }}</p>
+        </div>
+    </div>
 </body>
+<script>
+    Vue.createApp({
+        data: function() {
+            return {
+                consoleItems: ["something", "something else"],
+                thing: "OH MY FUCKING GOD"
+            }
+        },
+        methods: {
+            // Prevents default action at tabulator, adds indentation instead
+            indentation(){
+                let textField = document.getElementById("pyarea");
+    
+                // Get text index at cursor placement
+                let start = textField.selectionStart;
+                let end = textField.selectionEnd;
+    
+                // Add indentation at cursor placement
+                let newText = textField.value.substring(0, start) + "\t" + textField.value.substring(end);
+                textField.value = newText;
+            },
+    
+    
+            // Send the user's code to the python app
+            async runCode() {
+                let input = document.getElementById("pyarea").value;
+                let response = await fetch("/run",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "py="+input
+                });
+                if (response.status == 200){
+                    let result = await response.text();
+                    this.consoleItems.push("FUUUUCK");
+                    console.log(this.consoleItems);
+                }
+            }
+        }
+    }).mount("#app");
+</script>
 </html>
