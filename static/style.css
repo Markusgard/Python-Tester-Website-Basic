@@ -107,12 +107,23 @@ background-color: rgb(77, 87, 177);
 
 #app {
   height: 90%;
+  margin-right: 0;
 }
 #console {
   border: solid #0d5297;
   height: 300px;
   overflow: auto;
-  width: 100%;
+  overflow-anchor: bottom;
+  margin-right: 0;
+}
+#rulesWindow {
+  background-color: black;
+  color: white;
+  overflow-wrap: break-word;
+  padding: 10px;
+  height: 300px;
+  overflow: auto;
+  margin-right: 0;
 }
 #gameMain {
   padding-left: 20%;
@@ -121,6 +132,7 @@ background-color: rgb(77, 87, 177);
 #pyarea {
   width: 100%;
   resize: none;
+  border: none;
 }
 #runbutton {
   background-color: #0d5297;
@@ -128,37 +140,41 @@ background-color: rgb(77, 87, 177);
   font-family: consolas;
   width: 50px;
   height: 20px;
-  border: 0px solid;
+  border: none;
   border-top-left-radius: 20%;
   border-top-right-radius: 20%;
+}
+#rulesbutton {
+  background-color: black;
+  color: white;
+  font-family: consolas;
+  width: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 20px;
+  border: none;
+  border-top-right-radius: 20%;
+  border-top-left-radius: 20%;
 }
 
 .itemGood {
   background-color: #0d5297;
+  font-family: consolas;
+  margin: 0;
   padding: 10px;
 }
 .itemCaution {
   background-color: #FFBB91;
+  font-family: consolas;
+  margin: 0;
   padding: 10px;
 }
 .itemBad {
   background-color: crimson;
+  font-family: consolas;
+  margin: 0;
   padding: 10px;
 }
-.content2{
-width: 100%;
 
-}
-#content3{
-    display: flex;
-    justify-content: center;
-}
-
-#games{
-    margin-right: 20%;
-    background-color: #0d5297;
-    display:flex;
-    color: white;
-}
 
 

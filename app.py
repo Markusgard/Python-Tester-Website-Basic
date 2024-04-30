@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request
 from importlib import reload
+import json
 
 app = Flask(__name__)
 
@@ -9,7 +10,12 @@ def index():
 
 @app.route("/game")
 def game():
-    return render_template("gamepage.html")
+    with open("./SolEld/cases.json", "r") as data:
+        pdata = json.load(data)
+        desc = pdata["1"]["description"]
+        dset = pdata["1"]["dataset"]
+        dres = pdata["1"]["result"]
+    return render_template("gamepage.html", caseDesc=desc, caseDset=dset, caseDres=dres)
 
 
 
@@ -20,11 +26,11 @@ def run():
     code = request.form.get("py")
 
     if "import" in code:
-        return '2Modules are prohibited! <span class="penalty">-10 points penalty<span>'
+        return '2> Modules are prohibited! -10 points penalty'
     elif "open" in code:
-        return '2File modification is prohibited! <span class="penalty">-10 points penalty<span>'
+        return '2> File modification is prohibited! <span class="penalty">-10 points penalty<span>'
     elif "print" in code:
-        return "1Use 'return' rather than 'print()'"
+        return "1> Use 'return' rather than 'print()'"
     else: 
 
         codeind = code.replace("\n", "\n    ")      #Adds indentation
@@ -39,7 +45,7 @@ def run():
             reload(username)
         except Exception as error:
             os.remove("SolEld/username.py")
-            return "2Invalid syntax!-10 points penalty"       #Exception for general errors
+            return "2> Invalid syntax!-10 points penalty"       #Exception for general errors
 
         try:
             result = username.usercode()
@@ -48,11 +54,11 @@ def run():
         #Possible errors
         except Exception as error:
             os.remove("SolEld/username.py")
-            return f"2{error}! -10 points penalty"
+            return f"2> {error}! -10 points penalty"
         os.remove("SolEld/username.py")
 
 
-        return str("0" + str(result))
+        return str("0> " + str(result))
 
 if __name__ == "__main__":
     app.run(debug=True)
