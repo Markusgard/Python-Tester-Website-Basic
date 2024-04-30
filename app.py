@@ -20,9 +20,11 @@ def run():
     code = request.form.get("py")
 
     if "import" in code:
-        return "Prohibited"
+        return '2Modules are prohibited! <span class="penalty">-10 points penalty<span>'
+    elif "open" in code:
+        return '2File modification is prohibited! <span class="penalty">-10 points penalty<span>'
     elif "print" in code:
-        return "Please use 'return' instead of 'print()'"
+        return "1Use 'return' rather than 'print()'"
     else: 
 
         codeind = code.replace("\n", "\n    ")      #Adds indentation
@@ -37,15 +39,19 @@ def run():
             reload(username)
         except:
             os.remove("SolEld/username.py")
-            return [True, "Syntax error"]       #Exception for general errors
+            return "2Syntax error! <span class='penalty'>-10 points penalty<span>"       #Exception for general errors
 
         try:
-            result = username.usercode()    ### !!! ERROR: Result never updates
-        except:
+            result = username.usercode()
+
+        #Possible errors
+        except Exception as error:
             os.remove("SolEld/username.py")
-            return "General error"
+            return f"2{error}! -10 points penalty"
         os.remove("SolEld/username.py")
-        return str(result)      #String for now
+
+
+        return str("0" + str(result))
 
 if __name__ == "__main__":
     app.run(debug=True)

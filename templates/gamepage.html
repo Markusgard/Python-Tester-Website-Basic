@@ -15,7 +15,7 @@
             <input type="button" v-on:click="runCode" value="run">
         </form>
         <div id="console">
-            <p class="itemGood" v-for="item in consoleItems">[[ item ]]</p>
+            <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
         </div>
     </div>
 </body>
@@ -53,7 +53,12 @@
                 });
                 if (response.status == 200){
                     let result = await response.text();
-                    this.consoleItems.push(result[1]);
+                    let severity = "";
+                    if (result[0] > 1){             // Determines penalty to user
+                        severity = "itemBad"
+                    }else if (result[0] > 0){severity = "itemCaution"}
+                    else{severity = "itemGood"}
+                    this.consoleItems.push([severity, result.slice(1)]);
                 }
             }
         }
