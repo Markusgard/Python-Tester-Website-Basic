@@ -113,7 +113,6 @@ background-color: rgb(77, 87, 177);
   border: solid #0d5297;
   height: 300px;
   overflow: auto;
-  overflow-anchor: bottom;
   margin-right: 0;
 }
 #rulesWindow {
