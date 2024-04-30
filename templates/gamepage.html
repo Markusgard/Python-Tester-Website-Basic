@@ -9,15 +9,17 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-    <div id="app">
-        <form action="" method="POST">
-            <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"></textarea>
-            <input type="button" v-on:click="runCode" value="run">
-        </form>
-        <div id="console">
-            <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+    <main id="gameMain">
+        <div id="app">
+            <form action="" method="POST">
+                <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"></textarea>
+                <input type="button" id="runbutton" v-on:click="runCode" value="run">
+            </form>
+            <div id="console">
+                <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 <script>
     Vue.createApp({
@@ -63,6 +65,6 @@
             }
         }
     }).mount("#app");
-    
+
 </script>
 </html>

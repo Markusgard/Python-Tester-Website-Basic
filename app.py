@@ -37,13 +37,13 @@ def run():
         try:
             import username
             reload(username)
-        except:
+        except Exception as error:
             os.remove("SolEld/username.py")
-            return "2Syntax error! <span class='penalty'>-10 points penalty<span>"       #Exception for general errors
+            return "2Invalid syntax!-10 points penalty"       #Exception for general errors
 
         try:
             result = username.usercode()
-            
+
 
         #Possible errors
         except Exception as error:

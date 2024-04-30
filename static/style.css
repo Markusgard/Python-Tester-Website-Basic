@@ -108,12 +108,29 @@ background-color: rgb(77, 87, 177);
 #app {
   height: 90%;
 }
-
 #console {
-  border: solid;
+  border: solid #0d5297;
   height: 300px;
   overflow: auto;
-  
+  width: 100%;
+}
+#gameMain {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+#pyarea {
+  width: 100%;
+  resize: none;
+}
+#runbutton {
+  background-color: #0d5297;
+  color: white;
+  font-family: consolas;
+  width: 50px;
+  height: 20px;
+  border: 0px solid;
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
 }
 
 .itemGood {
