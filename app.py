@@ -6,7 +6,19 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    data=open("cases.json", "r")
+    pdata = json.load(data)
+    desc1 = pdata["1"]["description"]
+    ldata=open("leaderboard.json", "r")
+    ldata = json.load(ldata)
+        
+    return render_template("index.html", caseDesc1=desc1, leaderboard=ldata)
+
+@app.route("/leaderboard")
+def leaderboard():
+    with open("leaderboard.json", "r") as data:
+        pdata = json.load(data)
+    return render_template("leaderboard.html", leaderboard=pdata)
 
 @app.route("/game")
 def game():

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Learn Python</title>
+</head>
+<body>
+    <header id="header">
+        <div class="navbaritems">
+           <a href="/" class="logo">Logo</a>
+           <a class="Games" href="/">Games</a>
+           <a class="Leaderboard" href="leaderboard">Leaderboard</a>
+           <div class="Profile">Profile</div>
+           <div class="Login">Login</div>
+        </div>
+    </header>
+<body>
+    <div class="leaderboard">
+        <div class="leaderboard_title">
+            <div>
+                <h1>Leaderboard</h1>
+            </div>
+            
+        </div>
+        <div class="leaderboard_students">
+            <div class="only_students">
+            <table>
+            {% for student in leaderboard %}
+                 <tr>
+                    <td>{{leaderboard[student]['placement']}}</td>
+                    <td>{{leaderboard[student]['name']}}</td>
+                    <td>{{leaderboard[student]['time']}}</td>
+                </tr>
+            {%endfor%}
+            </table>
+        </div>
+        
+</body>
+</html>

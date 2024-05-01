@@ -8,18 +8,15 @@
 </head>
 <body>
     <header id="header">
-        <nav>
-            <ul id="navbaritems">
-                <li><a href="/game">New Game</a></li>
-                <li><a href="leaderboard.html">Leaderboard</a></li>
-                <li>Profile</li>
-                <li id="login">login</li>
-            </ul>
-        </nav>
+        <div class="navbaritems">
+           <a href="" class="logo">Logo</a>
+           <a class="Games" href="/">Games</a>
+           <a class="Leaderboard" href="leaderboard">Leaderboard</a>
+           <div class="Profile">Profile</div>
+           <div class="Login">Login</div>
+        </div>
     </header>
-    <main id="content">
-        <div class="flex-container">
-            <div class="content2">
+    <main id="flex-container">
                 <div class="banner">
                     <h2>Learn python today!</h2>
                 </div>
@@ -27,27 +24,42 @@
                     <div id="games">
                         <ul id="navbargames">
                             <h1>Games</h1>
-                            <li>Game1<a href="game1.html"></a></li>
+                            <h3>Game1</h3>
+                            <div id="Game1_desc">
+                                {{ caseDesc1 }}
+                            </div>
                             <button>Start</button>
-                            <li>Game2<a href="game2.html"></a></li>
+                            
+                            <h3>Game2</h3>
                             <button>Start</button>
-                            <li>Game3<a href="game3.html"></a></li>
+                            <h3>Game3</h3>
                             <button>Start</button>
                         </ul>
                     </div>
                     <div class="leaderboard">
-                        <ul id="leaderboard">
-                            <h1>Leaderboard</h1>
-                            <li>student 1</li>
-                            <li>student 2</li>
-                            <li>student 3</li>
-                        </ul>
+                        <div class="leaderboard_title">
+                            <div>
+                                <h1>Leaderboard</h1>
+                            </div>
+                            <div>
+                                <h3>Topp 3 students</h3>
+                            </div>
+                        </div>
+                        <div class="leaderboard_students">
+                            <div class="only_students">
+                            <table>
+                                {% for student in leaderboard %}
+                                    <tr>
+                                        <td>{{leaderboard[student]['placement']}}</td>
+                                        <td>{{leaderboard[student]['name']}}</td>
+                                        <td>{{leaderboard[student]['time']}}</td>
+                                    </tr> 
+                            {%endfor%}
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </main>
-    <p1></p1>
 </body>
 
 </html>

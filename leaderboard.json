@@ -1,0 +1,22 @@
+{
+    "123":{
+        "name":"Markus",
+        "time":"69",
+        "placement":"1"
+    },
+    "456":{
+        "name":"Jorund",
+        "time":"100",
+        "placement":"2"
+    },
+    "789":{
+        "name":"Eirik",
+        "time":"169",
+        "placement":"3"
+    },
+    "100":{
+        "name":"Marius",
+        "time":"200",
+        "placement":"4"
+    }
+}

@@ -4,86 +4,89 @@ h1, h2, h3 {
   font-family: Monsterrat, Raleway;
 }
 
+
+
 /* Header stuff */
-#header{
-    background-color: #0d5297;
-    height: 40px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    
-  }
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
 
-#navbaritems li{
-    display: inline;
-    font-size: 30px;
-    color: white;
-    margin-right:70px;
-    justify-content: center;
-    
-  }
+}
 
-#navbaritems a{
+.navbaritems{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: xx-large;
+  color: white;
+  background-color: rgb(21, 96, 130);
+
+}
+
+.navbaritems a{
   color: white;
   text-decoration: none;
 }
-
-#navbaritems{
-    position: fixed;
-    margin: 0;
-    top: 0;
-    display: flex;
-    
+.Games{
+  text-decoration: none;
+  color: white;
+}
+.Games:hover{
+  transform: scale(1.1);
+  
+}
+.Leaderboard:hover{
+  transform: scale(1.1);
+  
 }
 
-#navbaritems #login{
-    background-color: rgb(61, 150, 238);
-    margin-left: 100%;
-    margin-right:5%;
-    padding-left:10%;
-    padding-right:10%;
-
-}
 
 /*CONTENT*/
 body{
+<<<<<<< HEAD
     background-color: rgb(75, 95, 194);
     height: 80vh;
+=======
+    background-color: rgb(46, 112, 155);
+    margin: 0;
+>>>>>>> 3a46134 (Onsdag_Markus)
+}
+.flex-container{
+  display:flex;
+  justify-content: center;
+  margin:20%;
+  
 }
 
 .banner{
     background-color:  rgb(255, 224, 92); 
-    flex:50%;
     text-align: center;
     font-size: larger;
-    margin-top: 10%;
-    width:100%;
-    margin-bottom: 1%;
+
   }
   .banner h2{
     color: rgb(255, 255, 255);
-    text-shadow: 2px 2px #5a5757;
-  }
-  .flex-container{
-    display:flex;
-    justify-content: center;
-    align-items: center;
+
   }
 
+
 #content3{
-    background-color: #201a70;
     display:flex;
-    flex-direction: row;
+    justify-content: space-evenly;
 
 }
 .leaderboard{
-    background-color: #0d5297;
+    background-color: rgb(21, 96, 130);
     color: white;
-    padding-left: 50px;
-    padding-right:50px;
     font-size: 20px;
+    width:40%;
+    display: flex;
+    flex-direction: column;
+    
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 .content2{
 width: 100%;
@@ -124,3 +127,30 @@ background-color: rgb(77, 87, 177);
 
 
 
+=======
+.leaderboard_title{
+  margin-left: auto;
+  margin-right:auto;
+}
+
+.leaderboard_students{
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+  
+  #games{
+      background-color: rgb(21, 96, 130);
+      color: white;
+      width:40%;
+  }
+
+  @media screen and (max-width:600px) {
+    #content3{
+      display:flex;
+      color: red;
+  
+  }
+  }
+>>>>>>> 3a46134 (Onsdag_Markus)
