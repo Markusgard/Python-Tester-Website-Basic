@@ -25,12 +25,22 @@ def run():
 
     code = request.form.get("py")
 
+    lineCount = 0
+    for letter in code:
+        if letter == "\n":
+            lineCount += 1
+
+
+    # Code inspection before running
+
     if "import" in code:
         return '2> Modules are prohibited! -10 points penalty'
     elif "open" in code:
         return '2> File modification is prohibited! <span class="penalty">-10 points penalty<span>'
     elif "print" in code:
         return "1> Use 'return' rather than 'print()'"
+    elif lineCount < 1:
+        return "1> Solving by hand is cheating!"
     else: 
 
         codeind = code.replace("\n", "\n    ")      #Adds indentation
@@ -43,7 +53,7 @@ def run():
         try:
             import username
             reload(username)
-        except Exception as error:
+        except:
             os.remove("username.py")
             return "2> Invalid syntax!-10 points penalty"       #Exception for general errors
 
@@ -52,6 +62,7 @@ def run():
 
 
         #Possible errors
+
         except Exception as error:
             os.remove("username.py")
             return f"2> {error}! -10 points penalty"

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/gamepage.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
@@ -25,13 +26,15 @@
                     case description
                 </div>
                 <div id="codeArea">
-                    <form action="" method="POST">
+                    <form action="" method="POST" style="position:relative;height:55%;">
                         <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"
                         placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
                         v-on:keydown.shift.enter.prevent="runCode"
                         v-on:keydown.ctrl.v.prevent=""></textarea>
-                        <input type="button" id="runbutton" v-on:click="runCode" value="run">
-                        <input type="button" id="rulesbutton" v-on:click="displayRules" value="instructions">
+                        <div style="position:absolute;bottom:0;">
+                            <input type="button" id="runbutton" v-on:click="runCode" value="run">
+                            <input type="button" id="rulesbutton" v-on:click="displayRules" value="instructions">
+                        </div>
                     </form>
                     <div id="rulesWindow" v-if="rulesWindow">
                         Press [ instructions ] again to go back to the console.<br>
@@ -71,7 +74,7 @@
                 consoleItems: [["itemGood", "> placeholder 1"],
                 ["itemCaution", "> placeholder 2"],
                 ["itemBad", "> placeholder 3"]],
-                gameStarted: true,               // Remember to change this to false
+                gameStarted: false,               // Remember to change this to false
                 rulesWindow: false
             }
         },
@@ -121,6 +124,13 @@
                     else{severity = "itemGood"}
 
                     this.consoleItems.push([severity, result.slice(1)]);
+
+                    // Scrolls to the bottom of the console as new items is added.
+                    setTimeout(function() {
+                        let console = document.getElementById("console");
+                        console.scrollTop = console.scrollHeight;
+                    }, 1000)
+
                 }
             }
         }
