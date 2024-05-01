@@ -31,12 +31,18 @@
                         placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
                         v-on:keydown.shift.enter.prevent="runCode"
                         v-on:keydown.ctrl.v.prevent=""></textarea>
-                        <div style="position:absolute;bottom:0;">
-                            <input type="button" id="runbutton" v-on:click="runCode" value="run">
-                            <input type="button" id="rulesbutton" v-on:click="displayRules" value="instructions">
+                        <div id="windowButtons">
+                            <input type="button" id="consolebutton" v-on:click="display(0)" value="console" class="windowbutton">
+                            <input type="button" id="rulesbutton" v-on:click="display(1)" value="instructions" class="windowbutton">
+                            <input type="button"  id="devbutton" v-on:click="display(2)" value="developer" class="windowbutton">
                         </div>
+                        <input type="button" id="" style="float: right;" value="run!" v-on:click="runCode">
                     </form>
-                    <div id="rulesWindow" v-if="rulesWindow">
+                    <!-- BUG: Div doesn't stay scrolled at the bottom. -->
+                    <div id="console" v-if="windows[0]">
+                        <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+                    </div>
+                    <div id="rulesWindow" v-else-if="windows[1]">
                         Press [ instructions ] again to go back to the console.<br>
                         <p>Write your python code as you would normally. To submit an answer, you must return that value with a 
                             "return" statement and press "run". You will be cautioned against using the "print()" statement, as the 
@@ -53,9 +59,8 @@
                             modification will result in <span style="color: yellow">penalties</span>.</li>
                         </ul>
                     </div>
-                    <!-- BUG: Div doesn't stay scrolled at the bottom. -->
-                    <div id="console" v-else>
-                        <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+                    <div v-else>
+                        developer tools
                     </div>
                 </div>
             </div>
@@ -74,18 +79,19 @@
                 consoleItems: [["itemGood", "> placeholder 1"],
                 ["itemCaution", "> placeholder 2"],
                 ["itemBad", "> placeholder 3"]],
-                gameStarted: false,               // Remember to change this to false
-                rulesWindow: false
+                gameStarted: true,               // Remember to change this to false
+                windows: [true, false]
             }
         },
         methods: {
             startGame() {
-                this.gameStarted = true
+                this.gameStarted = true;
             },
 
 
-            displayRules() {
-                this.rulesWindow = !this.rulesWindow
+            display(window) {
+                this.windows = [false, false];
+                this.windows[window] = true;
             },
 
 
@@ -129,7 +135,7 @@
                     setTimeout(function() {
                         let console = document.getElementById("console");
                         console.scrollTop = console.scrollHeight;
-                    }, 1000)
+                    }, 500)
 
                 }
             }

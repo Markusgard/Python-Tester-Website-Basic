@@ -33,28 +33,37 @@
     resize: none;
     border: none;
   }
-  #runbutton {
-    background-color: #0d5297;
-    color: white;
-    font-family: consolas;
-    width: 50px;
-    height: 20px;
-    border: none;
-    border-top-left-radius: 20%;
-    border-top-right-radius: 20%;
+  #windowButtons {
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 0;
+    height: 25px;
   }
-  #rulesbutton {
-    background-color: black;
+  .windowbutton {
+    bottom: 0;
     color: white;
     font-family: consolas;
     width: auto;
-    padding-left: 10px;
-    padding-right: 10px;
     height: 20px;
     border: none;
-    border-top-right-radius: 20%;
     border-top-left-radius: 20%;
+    border-top-right-radius: 20%;
+    transition: height 0.2s;
   }
+  .windowbutton:hover {
+    height: 25px;
+  }
+  
+  #consolebutton {
+    background-color: #0d5297;
+  }#rulesbutton {
+    background-color: black;
+  } #devbutton {
+    background-color: #FFBB91;
+    color: black;
+  }
+  
   #gameDiv {
     display: flex;
     flex-direction: row-reverse;
