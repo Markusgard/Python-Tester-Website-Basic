@@ -10,7 +10,7 @@ def index():
 
 @app.route("/game")
 def game():
-    with open("./SolEld/cases.json", "r") as data:
+    with open("cases.json", "r") as data:
         pdata = json.load(data)
         desc = pdata["1"]["description"]
         dset = pdata["1"]["dataset"]
@@ -35,7 +35,7 @@ def run():
 
         codeind = code.replace("\n", "\n    ")      #Adds indentation
 
-        with open("SolEld/username.py", "x") as codefile:
+        with open("username.py", "x") as codefile:
             codefile.write("import math\n")
             codefile.write("def usercode():\n")
             codefile.write(f"    {codeind}\n")
@@ -44,7 +44,7 @@ def run():
             import username
             reload(username)
         except Exception as error:
-            os.remove("SolEld/username.py")
+            os.remove("username.py")
             return "2> Invalid syntax!-10 points penalty"       #Exception for general errors
 
         try:
@@ -53,9 +53,9 @@ def run():
 
         #Possible errors
         except Exception as error:
-            os.remove("SolEld/username.py")
+            os.remove("username.py")
             return f"2> {error}! -10 points penalty"
-        os.remove("SolEld/username.py")
+        os.remove("username.py")
 
 
         return str("0> " + str(result))

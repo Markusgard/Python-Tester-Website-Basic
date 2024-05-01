@@ -5,40 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/gpcode.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
+    <header id="header">
+        <nav>
+            <ul id="navbaritems">
+                <li>Games<a href="games.html"></a></li>
+                <li>Leaderboard<a href="leaderboard.html"></a></li>
+                <li>Profile</li>
+                <li id="login">login</li>
+            </ul>
+        </nav>
+    </header>
     <main id="gameMain">
         <div id="app">
-            <div v-if="gameStarted">                    <!-- MINOR BUG: 100% width overflows in both textarea & console -->
-                <form action="" method="POST">
-                    <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"
-                    placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
-                    v-on:keydown.shift.enter.prevent="runCode"></textarea>
-                    <input type="button" id="runbutton" v-on:click="runCode" value="run">
-                    <input type="button" id="rulesbutton" v-on:click="displayRules" value="instructions">
-                </form>
-                <div id="rulesWindow" v-if="rulesWindow">
-                    Press [ instructions ] again to go back to the console.<br>
-                    <p>Write your python code as you would normally. To submit an answer, you must return that value with a 
-                        "return" statement and press "run". You will be cautioned against using the "print()" statement, as the 
-                        interpreter is not built to take your submission with it.
-                    </p>
-                    <p>Any <span style="color: yellow">code error</span> will result in a <span style="color: yellow">penalty</span>.<br>
-                        <span style="color: yellow">Wrong answer</span> will result in a <span style="color: yellow">penalty</span>.</p>
-                    <p>Following <span style="color: yellow">restrictions</span> are active.</p>
-                    <ul>
-                        <li><span style="color: yellow">Modules</span> are prohibited.
-                            attempts at importing will result in <span style="color: yellow">penalties</span>. You are free to use the math module,
-                            which is pre-imported.</li>
-                        <li>The <span style="color: yellow">open</span> function is prohibited. Attempts at file 
-                        modification will result in <span style="color: yellow">penalties</span>.</li>
-                    </ul>
+            <div id="gameDiv" v-if="gameStarted">                    <!-- MINOR BUG: 100% width overflows in both textarea & console -->
+                <div id="caseDesc">
+                    case description
                 </div>
-                <!-- BUG: Div doesn't stay scrolled at the bottom. -->
-                <div id="console" v-else>
-                    <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+                <div id="codeArea">
+                    <form action="" method="POST">
+                        <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"
+                        placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
+                        v-on:keydown.shift.enter.prevent="runCode"
+                        v-on:keydown.ctrl.v.prevent=""></textarea>
+                        <input type="button" id="runbutton" v-on:click="runCode" value="run">
+                        <input type="button" id="rulesbutton" v-on:click="displayRules" value="instructions">
+                    </form>
+                    <div id="rulesWindow" v-if="rulesWindow">
+                        Press [ instructions ] again to go back to the console.<br>
+                        <p>Write your python code as you would normally. To submit an answer, you must return that value with a 
+                            "return" statement and press "run". You will be cautioned against using the "print()" statement, as the 
+                            interpreter is not built to take your submission with it.
+                        </p>
+                        <p>Any <span style="color: yellow">code error</span> will result in a <span style="color: yellow">penalty</span>.<br>
+                            <span style="color: yellow">Wrong answer</span> will result in a <span style="color: yellow">penalty</span>.</p>
+                        <p>Following <span style="color: yellow">restrictions</span> are active.</p>
+                        <ul>
+                            <li><span style="color: yellow">Modules</span> are prohibited.
+                                attempts at importing will result in <span style="color: yellow">penalties</span>. You are free to use the math module,
+                                which is pre-imported.</li>
+                            <li>The <span style="color: yellow">open</span> function is prohibited. Attempts at file 
+                            modification will result in <span style="color: yellow">penalties</span>.</li>
+                        </ul>
+                    </div>
+                    <!-- BUG: Div doesn't stay scrolled at the bottom. -->
+                    <div id="console" v-else>
+                        <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+                    </div>
                 </div>
             </div>
             <div v-else>

@@ -106,27 +106,32 @@ background-color: rgb(77, 87, 177);
 /* Gamepage */
 
 #app {
-  height: 90%;
+  height: 90vh;
   margin-right: 0;
+  margin-bottom: 0;
 }
 #console {
   border: solid #0d5297;
-  height: 300px;
+  /* height: 300px; */
   overflow: auto;
   margin-right: 0;
+  margin-bottom: 0;
 }
 #rulesWindow {
   background-color: black;
   color: white;
+  overflow: auto;
   overflow-wrap: break-word;
   padding: 10px;
-  height: 300px;
+  height: 285px;
   overflow: auto;
   margin-right: 0;
 }
 #gameMain {
+  margin-top: 45px;
   padding-left: 20%;
   padding-right: 20%;
+  margin-bottom: 0;
 }
 #pyarea {
   width: 100%;
@@ -154,6 +159,19 @@ background-color: rgb(77, 87, 177);
   border: none;
   border-top-right-radius: 20%;
   border-top-left-radius: 20%;
+}
+#gameDiv {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 0;
+}
+#codeArea {
+  width: 60%;
+}
+#caseDesc {
+  width: 40%;
+  margin-bottom: 0;
+  border: solid;
 }
 
 .itemGood {
