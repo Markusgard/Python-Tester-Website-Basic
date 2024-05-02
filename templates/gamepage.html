@@ -21,9 +21,11 @@
     </header>
     <main id="gameMain">
         <div id="app">
-            <div id="gameDiv" v-if="gameStarted">                    <!-- MINOR BUG: 100% width overflows in both textarea & console -->
+            <div id="gameDiv" v-if="gameStarted">
                 <div id="caseDesc">
-                    case description
+                    <h2>{{ caseTitle }}</h2>
+                    <p>{{ caseDesc }}</p>
+                    <div id="dataset">{{ caseDset }}</div>
                 </div>
                 <div id="codeArea">
                     <form action="" method="POST" style="position:relative;height:55%;">
@@ -33,35 +35,36 @@
                         v-on:keydown.ctrl.v.prevent=""></textarea>
                         <div id="windowButtons">
                             <input type="button" id="consolebutton" v-on:click="display(0)" value="console" class="windowbutton">
-                            <input type="button" id="rulesbutton" v-on:click="display(1)" value="instructions" class="windowbutton">
-                            <input type="button"  id="devbutton" v-on:click="display(2)" value="developer" class="windowbutton">
+                            <input type="button" id="instbutton" v-on:click="display(1)" value="instructions" class="windowbutton">
                         </div>
-                        <input type="button" id="" style="float: right;" value="run!" v-on:click="runCode">
+                        <input type="button" id="runbutton" style="float: right;" value="run!" v-on:click="runCode">
                     </form>
+
+                    <!-- CONSOLE WINDOW -->
                     <!-- BUG: Div doesn't stay scrolled at the bottom. -->
                     <div id="console" v-if="windows[0]">
                         <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
                     </div>
-                    <div id="rulesWindow" v-else-if="windows[1]">
-                        Press [ instructions ] again to go back to the console.<br>
+
+                    <!-- INSTRUCTIONS WINDOW -->
+
+                    <div id="instWindow" v-else-if="windows[1]">
                         <p>Write your python code as you would normally. To submit an answer, you must return that value with a 
                             "return" statement and press "run". You will be cautioned against using the "print()" statement, as the 
                             interpreter is not built to take your submission with it.
                         </p>
-                        <p>Any <span style="color: yellow">code error</span> will result in a <span style="color: yellow">penalty</span>.<br>
-                            <span style="color: yellow">Wrong answer</span> will result in a <span style="color: yellow">penalty</span>.</p>
-                        <p>Following <span style="color: yellow">restrictions</span> are active.</p>
+                        <p>Any <span>code error</span> will result in a <span>penalty</span>.<br>
+                            <span>Wrong answer</span> will result in a <span>penalty</span>.</p>
+                        <p>Following <span>restrictions</span> are active.</p>
                         <ul>
-                            <li><span style="color: yellow">Modules</span> are prohibited.
-                                attempts at importing will result in <span style="color: yellow">penalties</span>. You are free to use the math module,
+                            <li><span>Modules</span> are prohibited.
+                                attempts at importing will result in <span>penalties</span>. You are free to use the math module,
                                 which is pre-imported.</li>
-                            <li>The <span style="color: yellow">open</span> function is prohibited. Attempts at file 
-                            modification will result in <span style="color: yellow">penalties</span>.</li>
+                            <li>The <span>open</span> function is prohibited. Attempts at file 
+                            modification will result in <span>penalties</span>.</li>
                         </ul>
                     </div>
-                    <div v-else>
-                        developer tools
-                    </div>
+
                 </div>
             </div>
             <div v-else>
@@ -76,11 +79,12 @@
         delimiters: ['[[', ']]'],               // Prevent conflicts with Jinja2
         data: function() {
             return {
+                answer: null,
                 consoleItems: [["itemGood", "> placeholder 1"],
-                ["itemCaution", "> placeholder 2"],
+                ["itemAlert", "> placeholder 2"],
                 ["itemBad", "> placeholder 3"]],
                 gameStarted: true,               // Remember to change this to false
-                windows: [true, false]
+                windows: [true, false, false],
             }
         },
         methods: {
@@ -88,9 +92,8 @@
                 this.gameStarted = true;
             },
 
-
             display(window) {
-                this.windows = [false, false];
+                this.windows = [false, false, false];
                 this.windows[window] = true;
             },
 
@@ -110,7 +113,6 @@
     
             
             async runCode() {
-                if (this.rulesWindow) {return}          // in case the user mistakedly presses "run" to go back from the rules window
 
                 let input = document.getElementById("pyarea").value;                // Send the user's code to the python app
                 let response = await fetch("/run",{
@@ -126,10 +128,14 @@
 
                     if (result[0] > 1){             // Determines penalty to user
                         severity = "itemBad"
-                    }else if (result[0] > 0){severity = "itemCaution"}
+                    }else if (result[0] > 0){severity = "itemAlert"}
                     else{severity = "itemGood"}
 
-                    this.consoleItems.push([severity, result.slice(1)]);
+                    this.consoleItems.push([severity, result.slice(2)]);
+
+                    if (result[1] == 1) {
+                        this.answer = true;
+                    } else { this.answer = false }
 
                     // Scrolls to the bottom of the console as new items is added.
                     setTimeout(function() {
@@ -138,7 +144,8 @@
                     }, 500)
 
                 }
-            }
+            },
+
         }
     }).mount("#app");
 

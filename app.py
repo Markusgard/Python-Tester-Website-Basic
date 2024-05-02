@@ -24,10 +24,11 @@ def leaderboard():
 def game():
     with open("cases.json", "r") as data:
         pdata = json.load(data)
+        dtil = pdata["1"]["title"]
         desc = pdata["1"]["description"]
         dset = pdata["1"]["dataset"]
         dres = pdata["1"]["result"]
-    return render_template("gamepage.html", caseDesc=desc, caseDset=dset, caseDres=dres)
+    return render_template("gamepage.html", caseDesc=desc, caseDset=dset, caseDres=dres, caseTitle=dtil)
 
 
 
@@ -36,6 +37,7 @@ def run():
     import os
 
     code = request.form.get("py")
+    answer = ""
 
     lineCount = 0
     for letter in code:
@@ -82,7 +84,14 @@ def run():
         os.remove("username.py")
 
 
-        return str("0> " + str(result))
+        #Check result. 
+
+        correct = 0
+        if result == answer:
+            correct = 1
+
+
+        return str("0" + correct + "> " + str(result))
 
 if __name__ == "__main__":
     app.run(debug=True)

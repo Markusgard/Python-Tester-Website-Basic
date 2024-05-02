@@ -11,16 +11,17 @@
     height: 45%;
     overflow: auto;
   }
-  #rulesWindow {
+  #instWindow {
+    box-sizing: border-box;
     background-color: black;
     color: white;
     overflow: auto;
     overflow-wrap: break-word;
     padding: 10px;
-    height: 285px;
+    height: 45%;
     overflow: auto;
-    margin-right: 0;
-  }
+  } #instWindow span {color: yellow}
+
   #gameMain {
     margin-top: 45px;
     padding-left: 20%;
@@ -54,14 +55,25 @@
   .windowbutton:hover {
     height: 25px;
   }
-  
+
   #consolebutton {
     background-color: #0d5297;
-  }#rulesbutton {
+  } #instbutton {
     background-color: black;
   } #devbutton {
     background-color: #FFBB91;
     color: black;
+  }
+
+  #runbutton {
+    font-family: consolas;
+    background-color: greenyellow;
+    padding: 5px;
+    padding-left: 10px; padding-right: 10px;
+    border: solid 1px green;
+    border-radius: 5px;
+  } #runbutton:hover {
+    cursor: pointer;
   }
   
   #gameDiv {
@@ -75,8 +87,18 @@
   }
   #caseDesc {
     width: 40%;
-    border: solid;
+    border: groove #cca93f 10px;
+    background-color: #bd6739;
+    padding: 10px;
     margin-left: 5px;
+  }
+  #dataset {
+    background-color: black;
+    font-family: consolas;
+    color: white;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   
   .itemGood {
@@ -85,7 +107,7 @@
     margin: 0;
     padding: 10px;
   }
-  .itemCaution {
+  .itemAlert {
     background-color: #FFBB91;
     font-family: consolas;
     margin: 0;

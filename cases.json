@@ -1,8 +1,9 @@
 
 {
     "1": {
-        "description": "Description of the case the user should solve.",
+        "title": "Title",
+        "description": "Description of the case the user should solve. The result of this case is 'answer'.",
         "dataset": "A longer string of a dataset",
-        "result": "Case result, compared with the user's result"
+        "result": "answer"
     }
 }

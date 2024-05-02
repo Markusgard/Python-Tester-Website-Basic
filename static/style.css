@@ -13,6 +13,7 @@ h1, h2, h3 {
   justify-content: flex-start;
   
 
+<<<<<<< HEAD
 }
 
 .navbaritems{
@@ -25,6 +26,17 @@ h1, h2, h3 {
 
 }
 
+=======
+.navbaritems li{
+    display: inline;
+    font-size: 30px;
+    color: white;
+    margin-right:70px;
+    justify-content: center;
+    
+  }
+
+>>>>>>> a2c80f5 (gamepage styling)
 .navbaritems a{
   color: white;
   text-decoration: none;
@@ -93,6 +105,7 @@ width: 100%;
 background-color: rgb(77, 87, 177);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /* Gamepage */
 
@@ -125,6 +138,8 @@ background-color: rgb(77, 87, 177);
 =======
 >>>>>>> 220d85a (Css)
 
+=======
+>>>>>>> a2c80f5 (gamepage styling)
 
 
 =======
