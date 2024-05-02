@@ -32,7 +32,7 @@ def game():
 
 
 
-@app.route("/run", methods=["POST"])
+@app.route("/run/<usrRes>", methods=["POST"])
 def run():
     import os
 
@@ -43,7 +43,6 @@ def run():
     for letter in code:
         if letter == "\n":
             lineCount += 1
-
 
     # Code inspection before running
 
@@ -69,7 +68,7 @@ def run():
             reload(username)
         except:
             os.remove("username.py")
-            return "2> Invalid syntax!-10 points penalty"       #Exception for general errors
+            return "2> Invalid syntax!-10 points penalty"       #Exception for syntax error
 
         try:
             result = username.usercode()
