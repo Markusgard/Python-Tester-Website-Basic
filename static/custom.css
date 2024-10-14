@@ -1,0 +1,37 @@
+/* Custom CSS configuration outside of Bootstrap capabilities */
+
+/* Colors */
+
+.mainblue {
+    color: rgb(46, 112, 155)
+}
+.darkerblue {
+    color: rgb(21, 96, 130);
+}
+.yellow {
+    color:  rgb(255, 224, 92); 
+}
+
+/* Backgrounds */
+
+.bg-mainblue {
+    background-color: rgb(46, 112, 155);
+}
+.bg-darkerblue {
+    background-color: rgb(21, 96, 130);
+}
+.bg-yellow {
+    background-color:  rgb(255, 224, 92); 
+}
+
+/* Beyond bootstrap capabilities */
+
+.noresize {
+    resize: none;
+}
+.font-consolas {
+    font-family: consolas;
+}
+#instWindow span {
+    color: yellow;
+}

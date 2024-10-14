@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ caseTitle }}</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <header id="header" class="">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary p-2" role="navigation">
+        <a href="/" class="navbar-brand text-light logo">
+            <img src="/static/logo.png" alt="logo" width="100px" height="auto">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if session.get("username") == None %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link text-light" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#LogoutModal">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
+      <main>
+        <div class="row justify-content-center mt-5">
+          <div class="col-4">
+            <h1 class="display-1">{{code}}</h1>
+            <h1>{{name}}</h1>
+          </div>
+          <div class="col-2">
+            <i class="fa fa-bug" style="color:#d6d6d6;font-size:200px;"></i>
+          </div>
+        </div>
+      </main>
+       <!-- Logout Modal -->
+<div class="modal fade" id="LogoutModal" tabindex="-1" aria-labelledby="LogoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="LogoutModalLabel">Logout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to logout?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="/logout" class="btn btn-primary">Logout</a>
+          </div>
+      </div>
+  </div>
+</div>
+   <!-- Delete Modal -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">Delete Account</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to delete your account?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              
+                <a type="submit" class="btn btn-danger text-white" href="/delete_profile">Delete</a>
+              
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+<script>
+  const app = Vue.createApp({
+    delimiters: ['[[', ']]'],
+    data() {
+      return {
+        
+      }
+    },
+    methods: {
+      toggleDropdown() {
+      $('.dropdown-toggle').dropdown()
+      $('#myModal').on('shown.bs.modal', function () {$('#myInput').trigger('focus')})
+        
+      }
+    }
+    
+  });
+
+  app.mount('#app');
+</script>
+</body>
+</html>

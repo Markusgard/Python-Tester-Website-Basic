@@ -1,0 +1,8 @@
+Time:		Logarithmic,	-5 log(t + 10^(-18)) + 10,	(t = per minute spent)
+		Gets locked at 1 point if the user exceeds 60 minutes.
+		Case solved within 1 minute, user is rewarded hansomely.
+
+Attempts:	Linear? -x+50 ?
+		Gets locked at 1 point if the user exceeds an x amount of attempts.
+
+Penalties:	Caps at the negative of total amount of points.

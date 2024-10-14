@@ -1,22 +1,58 @@
 {
-    "123":{
-        "name":"Markus",
-        "time":"20",
-        "placement":"1"
+    "456": {
+        "username": "Admin",
+        "points": 150,
+        "placement": 3,
+        "date": "2024-07-17",
+        "role": "Admin",
+        "password": "scrypt:32768:8:1$hfiuCYhCIrziWVCU$cc393465999557b7d243a75d9fd23f32f8e0e94bb25e0f7ed79a650a0e17d7fab8cf1556b5f7a9c60eb520122c1cd433aae14ef9ec4d0fb0c17335568920d05d"
     },
-    "456":{
-        "name":"Jorund",
-        "time":"100",
-        "placement":"2"
+    "100": {
+        "username": "Marius",
+        "points": 0,
+        "date": "2024-05-23",
+        "placement": 4,
+        "role": "None",
+        "password": "scrypt:32768:8:1$hfiuCYhCIrziWVCU$cc393465999557b7d243a75d9fd23f32f8e0e94bb25e0f7ed79a650a0e17d7fab8cf1556b5f7a9c60eb520122c1cd433aae14ef9ec4d0fb0c17335568920d05d"
     },
-    "789":{
-        "name":"Eirik",
-        "time":"169",
-        "placement":"3"
+    "200": {
+        "points": 250,
+        "placement": 1,
+        "date": "2024-06-10",
+        "username": "Bruker",
+        "role": "None",
+        "password": "scrypt:32768:8:1$TR6z5ZA5YwhFsZZS$678eb6048511dd41ea33c47cc6804895293f65045fc959b4055a181421de6bdb26a4950d6d9fccd18a9d73d8dd95dbc7c114eb5cfa6ef84b16fdf93922d9bf9f"
     },
-    "100":{
-        "name":"Marius",
-        "time":"200",
-        "placement":"4"
+    "919": {
+        "username": "Jonas123",
+        "password": "scrypt:32768:8:1$X8kJJ0w4B0WmdRSc$1933a8cb8f25f03fac6ac97d810f47e7eec195b10b1c039bc4e1c044ece43be0697d2dee4fd738962d17102ba1f342a28b1cd510d2165104cca5b15ebda269ba",
+        "points": 0,
+        "placement": 5,
+        "role": "None",
+        "date": "2024-05-23"
+    },
+    "23": {
+        "username": "Test",
+        "password": "scrypt:32768:8:1$7H0AxrJcPDkCN9VS$07dc40c2a7fffe16c9caea1bb8b1b6a3edc23545d6ec96343d223a80acb6db1c090014e2630dbe928c758fc5d48bb321a7b5628c18d100ec4337994708fd5623",
+        "points": 0,
+        "placement": 6,
+        "date": "",
+        "role": "None"
+    },
+    "218": {
+        "username": "Armand6",
+        "password": "scrypt:32768:8:1$15vflcAHDiRcd2PD$aaecacc41f43040e16e684dbce89f9d78604a5b8cd4c1ef924110c2b97122f6b71bb5809f47495aed7858bd39572e7720c1448178dcff3faff9b683e85fbd43b",
+        "points": 200,
+        "placement": 2,
+        "date": "2024-06-09",
+        "role": "None"
+    },
+    "46": {
+        "username": "Eirik",
+        "password": "scrypt:32768:8:1$Zva2iTvKzb6lFQDk$220f0c4ab932429686174c1ec0add90665a0cbd6d7e4c98234283dfd3b98431ad9b4dcc42d40b9576e3728907e6b7e547a0710c453d85520af31c8613734093c",
+        "points": 0,
+        "placement": 7,
+        "date": "2024-06-10",
+        "role": "None"
     }
 }

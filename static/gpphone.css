@@ -1,0 +1,33 @@
+/* Phone layout of gamepage */
+
+@media screen and (max-width: 600px) {
+    #gameMain {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    #gameDiv {
+      flex-direction: column;
+    }
+    #codeArea {
+        width: 100%;
+    }
+    #caseDesc {
+        box-sizing: border-box;
+        margin-left: 0;
+        width: 100%;
+        min-height: 300px;
+    }
+    #runbutton {
+        padding: 20px;
+    }
+    #codeButtons {
+        height: 60px;
+    }
+    .windowbutton {
+        padding: 10px;
+        height: 40px;
+    }
+    .windowbutton:hover {   /* Disable hover function */
+        height: 40px;
+    }
+}

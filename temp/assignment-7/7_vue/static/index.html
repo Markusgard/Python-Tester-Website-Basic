@@ -1,0 +1,82 @@
+
+<html>
+<head>
+	<title>Assignment 7</title>
+	<link rel="stylesheet" href="/static/style.css" />
+	<script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+	<script src="/static/albumInfo.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<div id="albums">
+			<ul id="albums_list">
+				<li v-for="album in albums">
+					<!-- display the album here -->
+					<a v-on:click="showInfo(album.album_id)">{{ album.artist }} - {{ album.title }}</a>
+				</li>
+			</ul>
+		</div>
+		<album-info v-bind:album-id="album_id"
+		v-bind:album-cover="album_cover"
+		v-bind:album-songs="album_songs"
+		v-bind:time-total="totaltime"
+		v-show="album_id"></album-info>
+	</div>
+
+	<script>
+
+		let app = Vue.createApp({
+			data: function(){
+				return {
+					albums: [],
+					songs: [],
+					album_id: "",
+					album_cover: "",
+					album_songs: [],
+					totaltime: ""
+				}
+			},
+			// load album list using AJAX
+			created: async function() {
+				let page = await fetch("/albums")
+				if (page.status == 200){
+					this.albums = await page.json()
+				}
+				let pageTwo = await fetch("/songs")
+				if (pageTwo.status == 200){
+					this.songs = await pageTwo.json()
+				}
+			},
+			methods: {
+				showInfo(albumId){
+					const show = async() =>{
+						let response = await fetch("/albuminfo?album_id=" + albumId)
+						if (response.status == 200){
+							let info = await response.text();
+							let infos = JSON.parse(info);
+
+							// Prepares album info
+							this.album_id = infos.album_id;
+							this.album_cover = "/static/images/"+infos.cover_img
+							this.album_songs = this.songs[albumId];
+							let sumtime = 0;
+							for (let i=0; i<this.songs[albumId].length-1; i++){
+								sumtime += this.songs[albumId][i][2];
+							};
+							if (sumtime/3600 < 1){
+								this.totaltime = new Date(sumtime * 1000).toISOString().slice(14, 19);
+							} else {
+								this.totaltime = new Date(sumtime * 1000).toISOString().slice(11, 19);
+							}
+						}
+					}
+					show()
+				}
+			},
+		});
+		app.component("album-info", albumInfoC);
+		app.mount("#app");
+	</script>
+</body>
+</html>

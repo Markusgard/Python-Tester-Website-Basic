@@ -1,64 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
-    <title>Learn Python</title>
+    <title>{{ caseTitle }}</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-    <header id="header">
-        <div class="navbaritems">
-           <a href="" class="logo">Logo</a>
-           <a class="Games" href="/">Games</a>
-           <a class="Leaderboard" href="leaderboard">Leaderboard</a>
-           <div class="Profile">Profile</div>
-           <div class="Login">Login</div>
+  <header id="header" class="">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary p-2" role="navigation">
+        <a href="/" class="navbar-brand text-light logo">
+            <img src="static/logo.png" alt="logo" width="100px" height="auto">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if session.get("username") == None %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <div class="dropdown-item">
+                                <h5>Name: {{username}}</h5>
+                                <h6>Rank: {{placement}}</h6>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a type="button" class=" btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                                Delete account
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#LogoutModal">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-    </header>
-    <main id="flex-container">
-                <div class="banner">
-                    <h2>Learn python today!</h2>
-                </div>
-                <div id="content3">
-                    <div id="games">
-                        <ul id="navbargames">
-                            <h1>Games</h1>
-                            <h3>Game1</h3>
-                            <div id="Game1_desc">
-                                {{ caseDesc1 }}
-                            </div>
-                            <button>Start</button>
-                            
-                            <h3>Game2</h3>
-                            <button>Start</button>
-                            <h3>Game3</h3>
-                            <button>Start</button>
-                        </ul>
-                    </div>
-                    <div class="leaderboard">
-                        <div class="leaderboard_title">
-                            <div>
-                                <h1>Leaderboard</h1>
-                            </div>
-                            <div>
-                                <h3>Topp 3 students</h3>
-                            </div>
-                        </div>
-                        <div class="leaderboard_students">
-                            <div class="only_students">
-                            <table>
-                                {% for student in leaderboard %}
-                                    <tr>
-                                        <td>{{leaderboard[student]['placement']}}</td>
-                                        <td>{{leaderboard[student]['name']}}</td>
-                                        <td>{{leaderboard[student]['time']}}</td>
-                                    </tr> 
-                            {%endfor%}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-    </main>
+    </nav>
+</header>
+    {% if username == None %}
+    <div class=" ">
+      <div class="bg-info text-white d-flex p-3 mb-2  justify-content-center text-center ">
+      <h2>You have to be logged in to play.</h2> 
+      </div>
+      <div class=" container col-8 col-xxl-3 col-lg-3">
+        <div class="text-center">
+          <h1>Welcome!</h1>
+        </div>
+        <form action="/login" method="POST" class="loginform">
+          <div class="form-group">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="p-3 mb-2 bg-danger text-white sticky-top">
+                  <ul class=flashes>
+                  {% for message in messages %}
+                      <li>{{ message }}</li>
+                  {% endfor %}
+                  </ul>
+              </div>
+              {% endif %}
+          {% endwith %}
+          <input name="username" placeholder="Username" type="text" class="form-control" required>
+          </div>
+          <div class="form-group">
+          <input name="password" placeholder="Password" type="password" class="form-control" required>
+          </div>
+          <div class="form-group">
+          <button type="submit" class="btn btn-primary mb-2">Login</button>
+          </div>
+          <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/route_to_create_account">New around here? Sign up</a>
+          </div>
+      </form>
+    </div>
+  </div>
+    {%else:%}
+    <main class="container">
+      <div id="content3" class="d-flex flex-column flex-lg-row mt-1">
+          <div id="games" class="flex-grow-1">
+              <ul id="navbargames">
+                  <h1>Games</h1>
+                  <h3>{{caseDesc1[1]}}</h3>
+                  <div id="Game1_desc">
+                      {{ caseDesc1[0] }}
+                  </div>
+                  <button onclick="window.location.href='/game/1'" type="button" class="btn btn-primary" style="text-decoration: none;">Start</button>
+
+                  <h3>{{ caseDesc2[1] }}</h3>
+                  <div id="Game2_desc">
+                      {{ caseDesc2[0] }}
+                  </div>
+                  <button onclick="window.location.href='/game/2'" type="button" class="btn btn-primary" style="text-decoration: none;">Start</button>
+                  
+                  <h3>{{ caseDesc3[1] }}</h3>
+                  <div id="Game3_desc">
+                      {{ caseDesc3[0] }}
+                  </div>
+                  <button onclick="window.location.href='/game/3'" type="button" class="btn btn-primary" style="text-decoration: none;">Start</button>
+
+                  
+              </ul>
+          </div>
+          <div class="flex-grow-1">
+              <div id="leaderboard" class="p-3 m-3 bg-warning text-white text-center">
+                  <thead class="leaderboard_title">
+                      <h1>Leaderboard</h1>
+                      <h3>Top 3 students</h3>
+                  </thead>
+                  <div class="leaderboard_students">
+                      <div class="only_students">
+                          <table class="table">
+                              {% for student in leaderboard %}
+                                      <tr>
+                                        {% if leaderboard[student]['placement'] == 1 %}
+                                          <td class="text-white">{{ leaderboard[student]['placement'] }}</td>
+                                          <td class="text-white">{{ leaderboard[student]['username'] }}</td>
+                                          <td class="text-white">{{ leaderboard[student]['points'] }}</td>
+                                          {% endif %}
+                                      </tr>
+                              {%endfor%}
+                              {% for student in leaderboard %}
+                                      <tr>
+                                        {%  if leaderboard[student]['placement'] == 2 %}
+                                        <td class="text-white">{{ leaderboard[student]['placement'] }}</td>
+                                        <td class="text-white">{{ leaderboard[student]['username'] }}</td>
+                                        <td class="text-white">{{ leaderboard[student]['points'] }}</td>
+                                        {% endif %}
+                                      </tr>
+                              {%endfor%}
+                              {% for student in leaderboard %}
+                                      <tr>
+                                        {% if leaderboard[student]['placement'] == 3 %}
+                                        <td class="text-white">{{ leaderboard[student]['placement'] }}</td>
+                                        <td class="text-white">{{ leaderboard[student]['username'] }}</td>
+                                        <td class="text-white">{{ leaderboard[student]['points'] }}</td>
+                                        {% endif %}
+                                      </tr>
+                              {% endfor %}
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {%endif%}
+  </main>      
+
+  
+  
+
+ <!-- Logout Modal -->
+<div class="modal fade" id="LogoutModal" tabindex="-1" aria-labelledby="LogoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="LogoutModalLabel">Logout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to logout?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="/logout" class="btn btn-primary">Logout</a>
+          </div>
+      </div>
+  </div>
+</div>
+   <!-- Delete Modal -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">Delete Account</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to delete your account?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              
+                <a type="submit" class="btn btn-danger text-white" href="/delete_profile">Delete</a>
+              
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+</main>
+
+
+<script>
+    const app = Vue.createApp({
+      delimiters: ['[[', ']]'],
+      data() {
+        return {
+          
+        }
+      },
+      methods: {
+        toggleDropdown() {
+        $('.dropdown-toggle').dropdown()
+        $('#myModal').on('shown.bs.modal', function () {$('#myInput').trigger('focus')})
+          
+        }
+      }
+      
+    });
+
+    app.mount('#app');
+  </script>
 </body>
 </html>

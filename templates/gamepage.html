@@ -1,100 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/gamepage.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ caseTitle }}</title>
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+       
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+        
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+<body class="vh-100">
     <header id="header">
-        <nav>
-            <ul id="navbaritems">
-                <li>Games<a href="games.html"></a></li>
-                <li>Leaderboard<a href="leaderboard.html"></a></li>
-                <li>Profile</li>
-                <li id="login">login</li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary p-2" role="navigation">
+            <a href="/" class="navbar-brand text-light logo">
+                <img src="/static/logo.png" alt="logo" width="100px" height="auto">
+            </a>
+            <button class="navbar-toggler btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if session.get("username") == None %}
+                    <li class="nav-item">   
+                        <a class="nav-link text-light" href="/">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/leaderboard">Leaderboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light btn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <div class="dropdown-item">
+                                    <h5>Name: {{username}}</h5>
+                                    <h6>Rank: {{placement}}</h6>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a type="button" class="ml-1 btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                                    Delete account
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#LogoutModal">Logout</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </nav>
     </header>
-    <main id="gameMain">
-        <div id="app">
-            <div id="gameDiv" v-if="gameStarted">
-                <div id="caseDesc">
-                    <h2>{{ caseTitle }}</h2>
-                    <p>{{ caseDesc }}</p>
-                    <div id="dataset">{{ caseDset }}</div>
+    <main id="gameMain" class="h-75">
+            <div id="app" class="pt-2 col-sm-8 h-100 w-100">
+            <div id="gameDiv" v-if="gameStarted" class="h-100 col-sm-8 mx-auto">
+
+                <!-- POPUP AT COMPLETION -->
+                <div class="start-50 translate-middle-x position-fixed mt-5 col-xxl-4 col-sm-6 col-10 h-25 bg-white p-3 
+                d-flex align-items-center flex-column border border-3 border-success"
+                style="z-index: 1" v-if="completion">
+                    <h1>Case solved!</h1>
+                    <p>You managed to solve the case! See <span class="bg-success text-light p-1 px-2">results</span> 
+                        to check how many points you got.</p>
+                    <div class="flex-row d-flex justify-content-around w-50">
+                        <button class="btn-dark btn" @click="this.completion = false">close</button>
+                        <a href="/"><button class="btn-success btn">go home</button></a>
+                    </div>
                 </div>
-                <div id="codeArea">
-                    <form action="" method="POST" style="position:relative;height:55%;">
-                        <textarea name="pyarea" id="pyarea" cols="60" rows="20" v-on:keydown.tab.prevent="indentation"
-                        placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
-                        v-on:keydown.shift.enter.prevent="runCode"
-                        v-on:keydown.ctrl.v.prevent=""></textarea>
-                        <div id="windowButtons">
-                            <input type="button" id="consolebutton" v-on:click="display(0)" value="console" class="windowbutton">
-                            <input type="button" id="instbutton" v-on:click="display(1)" value="instructions" class="windowbutton">
+
+                <!-- TIMER AND ATTEMPTS -->
+                <div class="d-flex flex-row">
+                    <h1 id="timer" class="my-0 px-5"><code class="text-dark">[[ elapsed ]]</code></h1>
+                    <h1 class="my-0 px-xxl-5">
+                        <i class="fa fa-play-circle px-2" style="color:#d6d6d6;"></i>
+                        <code class="text-dark position-relative">[[ attempts ]]</code></h1>
+                    <h1 class="my-0 px-5">
+                        <i class="fa fa-exclamation-circle px-2" style="color:#d6d6d6;"></i>
+                        <code class="text-dark position-relative">[[ penalty_subtract ]]</code></h1>
+                </div>
+
+                <!-- CASE DESCRIPTION -->
+                <div class="d-flex flex-sm-row-reverse flex-column h-100">
+                    <div class="p-4 ms-sm-2 col-sm-5 col-12 text-light bg-primary position-relative overflow-auto h-100">
+                        <h2>{{ caseTitle }}</h2>
+                        <p>{{ caseDesc|safe }}</p>
+                        <div class="bg-dark h-25 overflow-auto my-4 w-100">
+                            <p class="m-2"><code class="text-light" id="case_dataset">{{ caseDset }}</code></p>
                         </div>
-                        <input type="button" id="runbutton" style="float: right;" value="run!" v-on:click="runCode">
-                    </form>
-
-                    <!-- CONSOLE WINDOW -->
-                    <!-- BUG: Div doesn't stay scrolled at the bottom. -->
-                    <div id="console" v-if="windows[0]">
-                        <p v-bind:class="item[0]" v-for="item in consoleItems">[[ item[1] ]]</p>
+                        <div v-show="answer!=null" class="start-50 translate-middle-x col-6 badge text-center position-sticky 
+                        bottom-0 p-3 mb-3"
+                        :class="answer ? 'bg-success' : 'shake bg-danger'">
+                            <div v-if="answer">Correct!</div>
+                            <div v-else>Incorrect!</div>
+                        </div>
                     </div>
 
-                    <!-- INSTRUCTIONS WINDOW -->
+                    <div id="codeArea" class="p flex-fill col-sm-7 h-100">
+                        <form action="" method="POST" id="tempCodeForm" class="d-flex flex-column justify-content-end"
+                        v-bind:class="extend ? 'h-50' : 'h-75'">
+                            <textarea name="pyarea" id="pyarea" cols="60" rows="13" v-on:keydown.tab.prevent="indentation"
+                            placeholder="Pro-tip: Press [shift] + [Enter] to run the code!"
+                            v-on:keydown.shift.enter.prevent="!answer ? runCode({{ caseId }}) : ''"
+                            v-on:keydown.ctrl.v.prevent="" class="form-control" style="height:1000px; resize:none"></textarea>
+                            <div id="codeButtons" class="d-flex flex-row position-relative
+                            justify-content-between mt-3 align-items-end">
+                                <div id="windowButtons">
+                                    <button type="button" v-on:click="display(0)" class="btn-primary">console</button>
+                                    <button type="button" v-on:click="display(1)" class="btn-dark">instructions</button>
+                                    <button type="button" v-on:click="display(2)" class="btn-success" v-show="answer">result</button>
+                                </div>
+                                <button type="button" v-on:click="runCode({{ caseId }})" id="runbutton"
+                                :disabled="answer" class="btn btn-success d mb-1">run!</button>
+                            </div>
+                        </form>
 
-                    <div id="instWindow" v-else-if="windows[1]">
-                        <p>Write your python code as you would normally. To submit an answer, you must return that value with a 
-                            "return" statement and press "run". You will be cautioned against using the "print()" statement, as the 
-                            interpreter is not built to take your submission with it.
-                        </p>
-                        <p>Any <span>code error</span> will result in a <span>penalty</span>.<br>
-                            <span>Wrong answer</span> will result in a <span>penalty</span>.</p>
-                        <p>Following <span>restrictions</span> are active.</p>
-                        <ul>
-                            <li><span>Modules</span> are prohibited.
-                                attempts at importing will result in <span>penalties</span>. You are free to use the math module,
-                                which is pre-imported.</li>
-                            <li>The <span>open</span> function is prohibited. Attempts at file 
-                            modification will result in <span>penalties</span>.</li>
-                        </ul>
+                        <!-- CONSOLE WINDOW -->
+                
+                        <div id="console" v-if="windows[0]" class="overflow-auto border border-primary h-25">
+                            <h5 class="container-fluid p-2 m-0" v-bind:class="item[0]" v-for="item in consoleItems">
+                                <code v-bind:class="item[0]">[[ item[1] ]]</code>
+                            </h5>
+                        </div>
+
+                        <!-- INSTRUCTIONS WINDOW -->
+
+                        <div id="instWindow" v-else-if="windows[1]" class="tab-pane bg-dark text-light p-3 overflow-auto h-50">
+                            <p>Write your python code as you would normally, the dataset is pre-assigned to a variable by the name <code>data</code>. 
+                                To submit an answer, you must return that value with a 
+                                <code>return</code> statement and press <span class="bg-success px-2 rounded">run!</span>. You will be cautioned against using the
+                                <code>print()</code> function, as the interpreter is not built to take your submission with it.
+                            </p>
+                            <p>Any <span class="text-warning">code error</span> will result in a <span class="text-warning">penalty</span>.<br>
+                                <span class="text-warning">Wrong answer</span> will result in a <span class="text-warning">penalty</span>.</p>
+                            <p>Following <span class="text-warning">restrictions</span> are active.</p>
+                            <ul>
+                                <li><span class="text-warning">Modules</span> are prohibited.
+                                    attempts at importing will result in <span class="text-warning">penalties</span>. You are free to use the math module,
+                                    which is pre-imported.</li>
+                                <li>The <span class="text-warning">open</span> function is prohibited. Attempts at file 
+                                modification will result in <span class="text-warning">penalties</span>.</li>
+                            </ul>
+                        </div>
+
+                        <!-- RESULTS WINDOW -->
+
+                        <div v-else-if="windows[2]" class="bg-success text-light h-50 p-4">
+                            <!-- Unique message for the amount of points -->
+                            <h1 v-if="elapsed_points + attempts_points - penalty_subtract > 100">Wow!!</h1>
+                            <h1 v-else-if="elapsed_points + attempts_points - penalty_subtract != 0">You did it!</h1>
+                            <h1 v-else>Oh.. </h1>
+                            <table class="table table-success">
+                                <tr>
+                                    <td>Time</td>
+                                    <td class="text-end">[[ elapsed ]]</td>
+                                    <td class="text-center">=</td>
+                                    <td>[[ elapsed_points ]]</td>
+                                </tr>
+                                <tr>
+                                    <td>Runs</td>
+                                    <td class="text-end">[[ attempts ]]</td>
+                                    <td class="text-center">=</td>
+                                    <td>[[ attempts_points ]]</td>
+                                </tr>
+                                <tr>
+                                    <td>Penalties</td>
+                                    <td class="text-end"> [[ penalty_subtract ]]</td>
+                                    <td class="text-center">=</td>
+                                    <td>[[ -penalty_subtract ]]</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="2">Total</td>
+                                    <td class="text-center">=</td>
+                                    <td>[[ elapsed_points + attempts_points - penalty_subtract ]] points</td>
+                                </tr>
+                            </table>
+                        </div>
+
                     </div>
-
                 </div>
             </div>
-            <div v-else>
-                {{ caseDesc }}
-                <button @click="startGame">Start</button>
+
+            <!-- PRE GAME START -->
+            <div v-else class="h-100 position-relative d-flex justify-content-center">
+                <div v-bind:class="{ 'd-none': !show_l2p }" class="container position-absolute col-xxl-4 col-md-6 text-light p-4 bg-secondary h-100
+                border border-dark border-3 rounded-3 d-flex flex-column">
+                    <h1 class="text-center border-bottom pb-4">How to play</h1>
+                    <p class="overflow-auto h-100"
+                    >Welcome to <code class="text-info">Python Learner</code>! The game about solving a coding problem as fast as you 
+                    can, with as little mistakes as possible. You are given an assignment which you must solve using the built-in 
+                    python interpreter. The dataset that belongs to your given task, is assigned to the variable: <code class="text-info">
+                    data</code>. So to work with the given dataset, you just call it like a regular variable! <br>
+                    <br>Freely importing modules are <span class="text-warning">forbidden</span>, and will result in a <span
+                    class="text-warning">penalty</span> if attempted, however, the <code class="text-info">Math</code> module is 
+                    allowed and is pre-imported, you may call it by writing <br><kbd>Math.&ltdesired expression&gt</kbd>. 
+                    Use of the <code class="text-info">open()</code> function is also <span class="text-warning">forbidden</span> and 
+                    will result in a <span class="text-warning">penalty</span>. Any occuring <span class="text-warning">error</span> 
+                    in your code will be displayed with the corresponding exception message in the built-in console, it will also result 
+                    in a <span class="text-warning">penalty</span>, so be careful! <br><br>Finally, the point system is dependent on 
+                    how long you take to solve your assignment, how many times you have run your code an unsuccessfully produced the 
+                    answer, and how many penalties you have recieved. The time variable caps at <code class="text-info">1 point</code>
+                    if you take more than 60 minutes solving the problem. The runs variable will also cap at <code class="text-info">1 point</code> 
+                    if you run your code more than fifty times without producing the correct answer. Otherwise, you will be rewarded hansomely if you take less than one 
+                    minute or solve the problem on your first try. The penalties will not subtract more than your total amount of 
+                    rewarded points. Say, if you have an astonishing <code class="text-info">106 points</code>, but unfortunately have 
+                    recieved <code class="text-info">18,672 penalties</code> (how do you even do that?), you won't get punished by less 
+                    than <code class="text-info">-106 points</code>, resulting in zero points.
+                    <br><br>Got that? Have fun!</p>
+                    <button class="mx-auto my-3 btn btn-light" @click="show_l2p = false">Okay!</button>
+                    <form action="">
+                        <label for="dnsa" class="form-check-label">Do not show again </label>
+                        <input type="checkbox" name="dnsa" id="dnsa" class="m-1 form-check-input" v-on:change="noshow_check"
+                        v-bind:checked="checkbox_state">
+                    </form>
+                </div>
+                <div class="container col-xxl-6 col-md-8 text-light p-4 bg-primary h-100">
+                    <h1 class="text-center border-bottom pb-3">Your Assignment</h1>
+                    <div class="overflow-auto h-75 p-3">
+                        <h1>{{ caseTitle }}</h1>
+                        <p>{{ caseDesc|safe }}</p>
+                        <p><strong>Dataset:</strong></p>
+                        <p class="container bg-dark p-3 col-xxl-8 h-50 overflow-auto text-break">{{ caseDset }}</p>
+                    </div>
+                    <div class="border-top pt-3 w-100">
+                        <em>The timer begins as soon as you press: </em>
+                        <button class="btn-light btn" @click="startGame">Start</button>
+                        <button class="btn-sm btn-info float-end btn" @click="show_l2p = true">How to play</button>
+                    </div>
+                </div>
             </div>
         </div>
+            <!-- Login Modal -->
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModallabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="LoginModallabel">Welcome!</h5>
+          <button type="button" class="close btn " data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/login" method="POST" class="loginform">
+                <div class="form-group">
+                <input name="username" placeholder="Username" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                <input name="password" placeholder="Password" type="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                <button type="submit" class="btn btn-primary mb-2">Login</button>
+                </div>
+                <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/route_to_create_account">New around here? Sign up</a>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+     <!-- Logout Modal -->
+<div class="modal fade" id="LogoutModal" tabindex="-1" aria-labelledby="LogoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LogoutModalLabel">Logout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="/logout" class="btn btn-primary">Logout</a>
+            </div>
+        </div>
+    </div>
+  </div>
+     <!-- Delete Modal -->
+  <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a type="submit" class="btn btn-danger text-white" href="/delete_profile">Delete</a>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  </div>
     </main>
 </body>
 <script>
+    
     Vue.createApp({
         delimiters: ['[[', ']]'],               // Prevent conflicts with Jinja2
         data: function() {
             return {
                 answer: null,
-                consoleItems: [["itemGood", "> placeholder 1"],
-                ["itemAlert", "> placeholder 2"],
-                ["itemBad", "> placeholder 3"]],
-                gameStarted: true,               // Remember to change this to false
+                completion: false,
+                consoleItems: [],
+                gameStarted: false,               // Remember to change this to false
+                show_l2p: true,
+                checkbox_state: null,
                 windows: [true, false, false],
+                extend: false,
+                attempts: 0,
+                attempts_points: 0,
+                elapsed: "00:00",
+                elapsed_points: 0,
+                penalty_subtract: 0
             }
         },
+
         methods: {
-            startGame() {
+            toggleDropdown() {
+                $('.dropdown-toggle').dropdown()
+                $('#myModal').on('shown.bs.modal', function () {$('#myInput').trigger('focus')})
+          
+            },
+            
+            async startGame() {
                 this.gameStarted = true;
+
+                let log_model = function(time) {
+                    var float = -5 * Math.log10( time + 10**(-18) ) + 10;   // Logarithmic model for time-points
+                    return Math.ceil(float)
+                }
+
+                seconds = 0;
+                var timeInterval = setInterval( () => {             // Timer
+                    if(!this.answer){
+                        seconds++
+                        let timeForm = new Date(seconds*1000 - 60*60*1000);
+                        let minuteForm = timeForm.toString().slice(19, 24);
+                        let hourForm = timeForm.toString().slice(16, 24);
+
+                        let minutes_raw = timeForm.getMinutes();
+                        this.elapsed_points = log_model(minutes_raw);
+
+                        if (seconds < 60*60){
+                            this.elapsed = minuteForm;
+                        } else { this.elapsed = hourForm;
+                        this.elapsed_points = 1;}
+                    }
+                else{clearInterval(timeInterval)}}, 1000);
             },
 
             display(window) {
-                this.windows = [false, false, false];
+                this.windows = [false, false, false];           // Picks which window to show under the code-input-area
                 this.windows[window] = true;
+                if (window == 1 || window == 2) {this.extend = true}
+                else {this.extend = false};
             },
 
 
@@ -108,45 +393,99 @@
                 // Add indentation at cursor placement
                 let newText = textField.value.substring(0, start) + "\t" + textField.value.substring(end);
                 textField.value = newText;
+                textField.setSelectionRange(start+1, end+1);        // Let's the cursor stay where it was before indentation
             },
     
     
             
-            async runCode() {
+            async runCode(caseId) {
 
                 let input = document.getElementById("pyarea").value;                // Send the user's code to the python app
-                let response = await fetch("/run",{
+                let encodedInput = encodeURIComponent(input);
+                let response = await fetch(`/run/${caseId}`,{
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
                     },
-                    body: "py="+input
+                    body: `py=${encodedInput}`
                 });
                 if (response.status == 200){
                     let result = await response.text();
                     let severity = "";
 
                     if (result[0] > 1){             // Determines penalty to user
-                        severity = "itemBad"
-                    }else if (result[0] > 0){severity = "itemAlert"}
-                    else{severity = "itemGood"}
+                        severity = "text-light bg-danger"
+                        this.penalty_subtract += 1;
+                    }else if (result[0] > 0){severity = "text-dark bg-warning"}
+                    else{severity = "text-light bg-primary"}
 
                     this.consoleItems.push([severity, result.slice(2)]);
 
-                    if (result[1] == 1) {
+                    // Checks if the result is valid
+                    if (result[1] == 2) {
                         this.answer = true;
-                    } else { this.answer = false }
+                        setTimeout( () => (this.completion = true), 1000);
+                        this.attempts++
+                        if (this.attempts > 50){this.attempts_points = 1}
+                        else {this.attempts_points = -this.attempts + 51};      // Linear model for points for attempted code-runs
+
+                        // Softens the penalties if need be
+                        if (this.penalty_subtract > (this.elapsed_points + this.attempts_points)){
+                            this.penalty_subtract = this.elapsed_points + this.attempts_points
+                        }
+
+                        // Updates placement
+                        let total_points = this.attempts_points + this.elapsed_points - this.penalty_subtract
+                        let update = await fetch("/placement?points=" + total_points.toString());
+                        
+                      
+                    } else if (result[1] == 1) {
+                        this.answer = false;
+                        this.attempts++;
+                        if (this.attempts > 50){this.attempts_points = 1}
+                        else {this.attempts_points = -this.attempts + 51};
+                    }
 
                     // Scrolls to the bottom of the console as new items is added.
                     setTimeout(function() {
-                        let console = document.getElementById("console");
+                        var console = document.getElementById("console");
                         console.scrollTop = console.scrollHeight;
-                    }, 500)
+                    }, 100)
 
+                } else {
+                    alert(`Something went wrong (${response.status})`);
                 }
             },
 
+            // Runs when the user presses "Do not show again"
+            noshow_check(){
+                var boolean = document.getElementById("dnsa").checked;
+                document.cookie = `dnsa=${boolean}`;
+            },
+
+            // Profile dropdown
+            toggleDropdown() {
+                $('.dropdown-toggle').dropdown()
+                $('#myModal').on('shown.bs.modal', function () {$('#myInput').trigger('focus')})
+                  
+            }
+
+
+        },
+
+        created() {
+            let cookies = document.cookie.split(";");
+            let dnsa_checkbox = document.getElementById("dnsa");
+            for (let i=0; i<cookies.length; i++){
+                if (cookies[i].includes("dnsa")){
+                    var boolean = JSON.parse(cookies[i].slice(5, cookies[i].length));
+                    this.checkbox_state = boolean;
+                    this.show_l2p = !boolean;
+                }
+            }
         }
+        
+
     }).mount("#app");
 
 </script>

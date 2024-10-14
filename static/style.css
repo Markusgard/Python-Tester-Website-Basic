@@ -13,7 +13,6 @@ h1, h2, h3 {
   justify-content: flex-start;
   
 
-<<<<<<< HEAD
 }
 
 .navbaritems{
@@ -26,7 +25,6 @@ h1, h2, h3 {
 
 }
 
-=======
 .navbaritems li{
     display: inline;
     font-size: 30px;
@@ -36,7 +34,6 @@ h1, h2, h3 {
     
   }
 
->>>>>>> a2c80f5 (gamepage styling)
 .navbaritems a{
   color: white;
   text-decoration: none;
@@ -53,22 +50,25 @@ h1, h2, h3 {
   transform: scale(1.1);
   
 }
-
+.Profile:hover{
+  transform: scale(1.1);
+}
+.Login:hover{
+  transform: scale(1.1);
+}
+.Logout:hover{
+  transform: scale(1.1);
+}
 
 /*CONTENT*/
 body{
-<<<<<<< HEAD
-    background-color: rgb(75, 95, 194);
-    height: 80vh;
-=======
     background-color: rgb(46, 112, 155);
     margin: 0;
->>>>>>> 3a46134 (Onsdag_Markus)
 }
 .flex-container{
   display:flex;
   justify-content: center;
-  margin:20%;
+  
   
 }
 
@@ -98,51 +98,6 @@ body{
     flex-direction: column;
     
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-.content2{
-width: 100%;
-background-color: rgb(77, 87, 177);
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/* Gamepage */
-
-#app {
-  height: 90vh;
-  margin-right: 0;
-  margin-bottom: 0;
->>>>>>> 220d85a (Css)
-}
-#content3{
-    display: flex;
-    justify-content: center;
-}
-
-#games{
-    margin-right: 10%;
-    background-color: #0d5297;
-    display:flex;
-    color: white;
-    padding-left: 50px;
-    padding-right:50px;
-    padding-bottom:100px;
-    font-size: 30px;
-}
-<<<<<<< HEAD
-
-=======
-
-
-=======
->>>>>>> 220d85a (Css)
-
-=======
->>>>>>> a2c80f5 (gamepage styling)
-
-
-=======
 .leaderboard_title{
   margin-left: auto;
   margin-right:auto;
@@ -161,11 +116,10 @@ background-color: rgb(77, 87, 177);
       width:40%;
   }
 
-  @media screen and (max-width:600px) {
-    #content3{
-      display:flex;
-      color: red;
-  
-  }
-  }
->>>>>>> 3a46134 (Onsdag_Markus)
+
+
+/*login page*/
+.welcome_text{
+  color: white;
+  justify-content: center;
+}
