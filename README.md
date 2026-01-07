@@ -1,3 +1,5 @@
+This is an old project from 2 years ago. but its a fun one.
+
 # Applikasjonbeskrivelse
 
 
